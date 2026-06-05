@@ -1,4 +1,10 @@
+using AgenciaDeViagens.Interfaces;
+using AgenciaDeViagens.Models;
+using AgenciaDeViagens.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,6 +21,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
