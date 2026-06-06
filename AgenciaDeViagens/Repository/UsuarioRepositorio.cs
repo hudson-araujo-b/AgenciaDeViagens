@@ -21,11 +21,12 @@ namespace AgenciaDeViagens.Repository
 
                 string senhaHash = BCrypt.Net.BCrypt.HashPassword(usuario.senhaHash);
 
-                var sql = "INSERT INTO usuario (nome,email,senha_hash) VALUES (@nome,@email,@senha)";
+                var sql = "INSERT INTO usuario (nome,email,senha_hash,nivel_acesso) VALUES (@nome,@email,@senha,@nivel)";
                 var cmd = new MySqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@nome", usuario.nome);
                 cmd.Parameters.AddWithValue("@email", usuario.email);
                 cmd.Parameters.AddWithValue("@senha", senhaHash);
+                cmd.Parameters.AddWithValue("@nivel", usuario.nivelAcesso);
                 cmd.ExecuteNonQuery();
 
             }
@@ -56,6 +57,7 @@ namespace AgenciaDeViagens.Repository
                         id = Convert.ToInt32(reader["id"]),
                         nome = reader["nome"].ToString()!,
                         email = reader["email"].ToString()!,
+                        nivelAcesso = reader["nivelAcesso"].ToString()!
                     };
                 }
 

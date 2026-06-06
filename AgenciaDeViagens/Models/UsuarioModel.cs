@@ -12,5 +12,6 @@ namespace AgenciaDeViagens.Models
         public string email { get; set; } = string.Empty;
         [Required(ErrorMessage = "A senha é obrigatória.")]
         public string senhaHash { get; set; } = string.Empty;
+        public string nivelAcesso { get; set; } = "Usuário"; // Usuário/Administrador
     }
 }
