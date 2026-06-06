@@ -31,5 +31,38 @@ namespace AgenciaDeViagens.Repository
             }
 
         }
+        public UsuarioModel? validarLogin(string email, string senha)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+
+            conn.Open();
+
+            var sql = "SELECT * FROM usuario WHERE email= @email";
+
+            var cmd = new MySqlCommand(sql, conn);
+
+            cmd.Parameters.AddWithValue("@email", email);
+
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                string senhaBanco = reader["senha_hash"].ToString()!;
+
+                if (BCrypt.Net.BCrypt.Verify(senha, senhaBanco))
+                {
+                    return new UsuarioModel
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        nome = reader["nome"].ToString()!,
+                        email = reader["email"].ToString()!,
+                    };
+                }
+
+            }
+
+            return null;
+        }
     }
 }
+
